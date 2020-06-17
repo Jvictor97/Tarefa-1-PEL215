@@ -1,0 +1,51 @@
+#VRML_SIM R2020a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.6938900389709612 0.6924070921172861 0.1977094651314446 0.7492907554717818
+  position 5.2241517583204455 6.312788744339378 9.172185046889645
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 10 10
+  floorTileSize 2 2
+  wallHeight 0.3
+}
+OilBarrel {
+  translation 2.74 0.44 0
+}
+OilBarrel {
+  translation 1.9 0.44 3.22
+  name "oil barrel(1)"
+}
+OilBarrel {
+  translation 0.5 0.44 -1.84
+  name "oil barrel(2)"
+}
+OilBarrel {
+  translation -2.75 0.44 3.22
+  name "oil barrel(3)"
+}
+OilBarrel {
+  translation -0.37 0.44 2.1
+  name "oil barrel(4)"
+}
+OilBarrel {
+  translation -2.75 0.44 -0.64
+  name "oil barrel(5)"
+}
+OilBarrel {
+  translation -2.75 0.44 -3.59
+  name "oil barrel(6)"
+}
+OilBarrel {
+  translation 2.5 0.44 -2.57
+  name "oil barrel(7)"
+}
+Pioneer3at {
+  rotation 0 1 0 3.14159
+  controller "pionner_controller"
+}
