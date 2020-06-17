@@ -145,43 +145,40 @@ int main(int argc, char **argv) {
     
     // printf("F: %f FL: %f FR: %f\n", frontValue, frontLeftValue, frontRightValue);
     printf("s0: %f s1: %f s2: %f s3: %f s4: %f s5: %f s6: %f s7: %f\n", 
-           so0Value, so1Value, so2Value, so3Value, so4Value, so5Value, so6Value, so7Value);
+           so0Value, so1Value, so2Value, so3Value, so4Value, so5Value, so6Value,
+           so7Value);
     fflush(stdout);
     
     switch(currentAction) {
       case FORWARD:
-         if(so4Value > threshold || so3Value > threshold){
-           // LEFT_SPIN
+         if(so4Value > threshold || so5Value > threshold) {
+           // SPIN LEFT
            leftSpeed = -MAX_SPEED;
            rightSpeed = MAX_SPEED;
            currentAction = LEFT_SPIN;
          }
-         else if (so2Value > threshold || so1Value > threshold || so0Value > threshold) {
+         if(so3Value > threshold || so2Value > threshold){
+           // SPIN RIGHT
+           leftSpeed = MAX_SPEED;
+           rightSpeed = -MAX_SPEED;
+           currentAction = RIGHT_SPIN;
+         }
+         else if (so1Value > threshold || so0Value > threshold) {
            // TURN RIGHT
-           leftSpeed = MAX_SPEED * 3;
+           leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED / 3;
            currentAction = RIGHT_TURN;
          }
-         else if (so7Value > threshold || so6Value > threshold || so5Value > threshold) {
+         else if (so7Value > threshold || so6Value > threshold) {
            // TURN LEFT
            leftSpeed = MAX_SPEED / 3;
-           rightSpeed = MAX_SPEED * 3;
+           rightSpeed = MAX_SPEED;
            currentAction = LEFT_TURN;
          }
          
          break;      
-       
-     case BACKWARD:
-       if(so4Value < threshold && so3Value < threshold){
-           // FORWARD
-           leftSpeed = MAX_SPEED;
-           rightSpeed = MAX_SPEED;
-           currentAction = FORWARD;
-        }
-       break;
-     
      case LEFT_TURN:
-       if(so2Value < threshold && so1Value < threshold && so0Value < threshold) {
+       if(so7Value < threshold && so6Value < threshold) {
          leftSpeed = MAX_SPEED;
          rightSpeed = MAX_SPEED;
          currentAction = FORWARD;
@@ -189,7 +186,7 @@ int main(int argc, char **argv) {
        break;
        
      case RIGHT_TURN:
-       if(so7Value < threshold && so6Value < threshold && so5Value < threshold) {
+       if(so1Value < threshold && so0Value < threshold) {
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED;
            currentAction = FORWARD;
@@ -197,15 +194,21 @@ int main(int argc, char **argv) {
        break;
        
      case LEFT_SPIN:
-      if(so4Value < threshold && so3Value < threshold){
+       if(so4Value < threshold && so5Value < threshold){
            // FORWARD
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED;
            currentAction = FORWARD;
-        }
+       }
        break;
      
      case RIGHT_SPIN:
+       if(so3Value < threshold && so2Value < threshold){
+           // FORWARD
+           leftSpeed = MAX_SPEED;
+           rightSpeed = MAX_SPEED;
+           currentAction = FORWARD;
+       }
        break;
        
      default:
