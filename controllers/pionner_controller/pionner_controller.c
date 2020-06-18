@@ -58,25 +58,6 @@ int main(int argc, char **argv) {
   WbDeviceTag so6 = wb_robot_get_device("so6");
   WbDeviceTag so7 = wb_robot_get_device("so7");
   
-  /*
-  WbDeviceTag frontSensor = wb_robot_get_device("so3");
-  WbDeviceTag frontLeftSensor = wb_robot_get_device("so1");
-  WbDeviceTag frontRightSensor = wb_robot_get_device("so6");
-  WbDeviceTag backSensor = wb_robot_get_device("so11");
-  WbDeviceTag backLeftSensor = wb_robot_get_device("so14");
-  WbDeviceTag backRightSensor = wb_robot_get_device("so9");
-  */
-
-  // Habilitando os sensores
-  /*
-  wb_distance_sensor_enable(frontSensor, TIME_STEP);
-  wb_distance_sensor_enable(backSensor, TIME_STEP);
-  wb_distance_sensor_enable(frontLeftSensor, TIME_STEP);
-  wb_distance_sensor_enable(frontRightSensor, TIME_STEP);
-  wb_distance_sensor_enable(backLeftSensor, TIME_STEP);
-  wb_distance_sensor_enable(backRightSensor, TIME_STEP);
-  */
-  
   wb_distance_sensor_enable(so0, TIME_STEP);
   wb_distance_sensor_enable(so1, TIME_STEP);
   wb_distance_sensor_enable(so2, TIME_STEP);
@@ -95,22 +76,13 @@ int main(int argc, char **argv) {
   // Velocidade Máxima
   double MAX_SPEED = 2;
   // Limite de proximidade para os sensores
-  double threshold = 900;
+  double threshold = 950;
 
   // Setando a velocidade inicial dos motores
   double leftSpeed = MAX_SPEED;
   double rightSpeed = MAX_SPEED;
   
-  // Variáveis para o valor dos sensores
-  /*
-  double frontValue;
-  double backValue;
-  double frontLeftValue;
-  double frontRightValue;
-  double backLeftValue;
-  double backRightValue;
-  */
-  
+  // Variáveis para o valor dos sensores 
   double so0Value, so1Value, so2Value, so3Value, so4Value, so5Value, so6Value, so7Value; 
   
   // Enum para mapear as ações
@@ -125,15 +97,6 @@ int main(int argc, char **argv) {
    */
   while (wb_robot_step(TIME_STEP) != -1) {
     // Leitura dos sensores
-    /*
-    frontValue = wb_distance_sensor_get_value(frontSensor);
-    backValue = wb_distance_sensor_get_value(backSensor);
-    frontLeftValue = wb_distance_sensor_get_value(frontLeftSensor);
-    frontRightValue = wb_distance_sensor_get_value(frontRightSensor);
-    backLeftValue = wb_distance_sensor_get_value(backLeftSensor);
-    backRightValue = wb_distance_sensor_get_value(backRightSensor);
-    */
-    
     so0Value = wb_distance_sensor_get_value(so0);
     so1Value = wb_distance_sensor_get_value(so1);
     so2Value = wb_distance_sensor_get_value(so2);
@@ -143,7 +106,6 @@ int main(int argc, char **argv) {
     so6Value = wb_distance_sensor_get_value(so6);
     so7Value = wb_distance_sensor_get_value(so7);
     
-    // printf("F: %f FL: %f FR: %f\n", frontValue, frontLeftValue, frontRightValue);
     printf("s0: %f s1: %f s2: %f s3: %f s4: %f s5: %f s6: %f s7: %f\n", 
            so0Value, so1Value, so2Value, so3Value, so4Value, so5Value, so6Value,
            so7Value);
@@ -151,25 +113,27 @@ int main(int argc, char **argv) {
     
     switch(currentAction) {
       case FORWARD:
-         if(so4Value > threshold || so5Value > threshold) {
+         if(so4Value > threshold || so5Value > threshold 
+         || so6Value > threshold) {
            // SPIN LEFT
            leftSpeed = -MAX_SPEED;
            rightSpeed = MAX_SPEED;
            currentAction = LEFT_SPIN;
          }
-         if(so3Value > threshold || so2Value > threshold){
+         if(so3Value > threshold || so2Value > threshold 
+         || so1Value > threshold) {
            // SPIN RIGHT
            leftSpeed = MAX_SPEED;
            rightSpeed = -MAX_SPEED;
            currentAction = RIGHT_SPIN;
          }
-         else if (so1Value > threshold || so0Value > threshold) {
+         else if (so0Value > threshold) {
            // TURN RIGHT
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED / 3;
            currentAction = RIGHT_TURN;
          }
-         else if (so7Value > threshold || so6Value > threshold) {
+         else if (so7Value > threshold) {
            // TURN LEFT
            leftSpeed = MAX_SPEED / 3;
            rightSpeed = MAX_SPEED;
@@ -178,7 +142,7 @@ int main(int argc, char **argv) {
          
          break;      
      case LEFT_TURN:
-       if(so7Value < threshold && so6Value < threshold) {
+       if(so7Value < threshold) {
          leftSpeed = MAX_SPEED;
          rightSpeed = MAX_SPEED;
          currentAction = FORWARD;
@@ -186,7 +150,7 @@ int main(int argc, char **argv) {
        break;
        
      case RIGHT_TURN:
-       if(so1Value < threshold && so0Value < threshold) {
+       if(so0Value < threshold) {
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED;
            currentAction = FORWARD;
@@ -194,7 +158,8 @@ int main(int argc, char **argv) {
        break;
        
      case LEFT_SPIN:
-       if(so4Value < threshold && so5Value < threshold){
+       if(so4Value < threshold && so5Value < threshold 
+       && so6Value < threshold){
            // FORWARD
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED;
@@ -203,7 +168,8 @@ int main(int argc, char **argv) {
        break;
      
      case RIGHT_SPIN:
-       if(so3Value < threshold && so2Value < threshold){
+       if(so3Value < threshold && so2Value < threshold 
+       && so1Value < threshold){
            // FORWARD
            leftSpeed = MAX_SPEED;
            rightSpeed = MAX_SPEED;
@@ -219,8 +185,6 @@ int main(int argc, char **argv) {
     wb_motor_set_velocity(backLeftMotor, leftSpeed);
     wb_motor_set_velocity(frontRightMotor, rightSpeed);
     wb_motor_set_velocity(backRightMotor, rightSpeed);
-    
-    //if (currentAction == LEFT_TURN || currentAction == RIGHT_TURN) delay(300);
   };
 
   /* This is necessary to cleanup webots resources */

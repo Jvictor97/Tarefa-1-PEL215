@@ -2,8 +2,10 @@
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.6938900389709612 0.6924070921172861 0.1977094651314446 0.7492907554717818
-  position 5.2241517583204455 6.312788744339378 9.172185046889645
+  orientation 0.2517884129779445 0.9366594986360223 0.243457550108768 4.656306788124157
+  position -6.461411476913603 2.087599965835688 -0.42334325561473407
+  follow "Pioneer 3-AT"
+  followType "Mounted Shot"
 }
 TexturedBackground {
 }
@@ -15,14 +17,14 @@ RectangleArena {
   wallHeight 0.3
 }
 OilBarrel {
-  translation 2.74 0.44 0
+  translation 3.27 0.44 0
 }
 OilBarrel {
-  translation 1.9 0.44 3.22
+  translation 2.42 0.44 2.55
   name "oil barrel(1)"
 }
 OilBarrel {
-  translation 0.5 0.44 -1.84
+  translation 0.04 0.44 -2.28
   name "oil barrel(2)"
 }
 OilBarrel {
@@ -30,22 +32,23 @@ OilBarrel {
   name "oil barrel(3)"
 }
 OilBarrel {
-  translation -0.37 0.44 2.1
+  translation -0.37 0.44 1.37
   name "oil barrel(4)"
 }
 OilBarrel {
-  translation -2.75 0.44 -0.64
+  translation -3.42 0.44 0.44
   name "oil barrel(5)"
 }
 OilBarrel {
-  translation -2.75 0.44 -3.59
+  translation -2.25 0.44 -3.48
   name "oil barrel(6)"
 }
 OilBarrel {
-  translation 2.5 0.44 -2.57
+  translation 3.05 0.44 -3.52
   name "oil barrel(7)"
 }
 Pioneer3at {
-  rotation 0 1 0 3.14159
+  translation -3.06 0.11 -0.39
+  rotation 0 1 0 -1.5707953071795862
   controller "pionner_controller"
 }
